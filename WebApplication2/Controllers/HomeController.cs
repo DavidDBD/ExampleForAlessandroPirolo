@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,16 +23,16 @@ namespace WebApplication2.Controllers
         [ProducesResponseType(typeof(Article), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public ActionResult<Article> FindById()
+        public async Task<ActionResult<Article>> FindById()
         {
-            var item = repository.GetAsync(1);
+            var item = await repository.GetAsync(1);
 
             if (item == null)
             {
                 return NotFound();
             }
 
-            return Ok(new Article(){ Id = 1 });
+            return Ok(item);
 
         }
     }
